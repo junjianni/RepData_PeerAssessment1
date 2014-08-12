@@ -2,19 +2,79 @@
 
 
 ## Loading and preprocessing the data
+```{r}
+setwd("C:/Users/jf08/RepData_PeerAssessment1")
+unzip("activity.zip")
+activity <- read.csv("activity.csv", header=T, sep=",", quote="\"")
+head(activity)
 
-
+```
 
 ## What is mean total number of steps taken per day?
 
-
+```{r fig.width=7, fig.height=6}
+stepsumD <- aggregate(steps~date, data=activity, FUN="sum")
+hist(stepsumD$steps)
+mean(stepsumD$steps)
+median(stepsumD$steps)
+```
 
 ## What is the average daily activity pattern?
-
-
+```{r fig.width=7, fig.height=6}
+stepAveInt <- aggregate(steps~interval, data=activity, FUN="mean")
+head(stepAveInt)
+plot(stepAveInt$interval, stepAveInt$steps, type='l', xlab="interval", ylab="Average steps", main="Changes in average steps of intervals during a day", col=1,axes=T)
+subset(stepAveInt, steps==max(stepAveInt$steps))
+summary(stepAveInt$steps)
+```
 
 ## Imputing missing values
 
+```{r fig.width=7, fig.height=6}
+head(activity)
+length(activity[activity$steps=="NA",]$steps)
+# length(activity$steps)
 
+## p2
+# if(activity$steps=="NA"){activity$step=mean(stepAveInt[interval])}
+str(activity)
+str(stepAveInt)
+activity1 <- merge(activity, stepAveInt, by="interval")
+for(i in 1:nrow(activity1)){
+  if(is.na(activity1$steps.x[i])){
+    activity1$steps.x[i]<-activity1$steps.y[i]
+  }
+}
+head(activity1, 10)
+activity2<-data.frame(activity1$steps.x, activity1$date, activity1$interval)
+colnames(activity2)<-c("steps","date","interval")
+stepsumD2 <- aggregate(steps~date, data=activity2, FUN="sum")
+hist(stepsumD2$steps)
+mean(stepsumD2$steps)
+median(stepsumD2$steps)
+# summary(stepsumD$steps)
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r fig.width=7, fig.height=6}
+wd<-weekdays(as.Date(activity2$date))
+for(i in 1:length(wd)){
+  if(wd[i]=="Saturday" | wd[i]=="Sunday"){
+    wd[i]<-"weekend"
+  }else{
+    wd[i]<-"weekday"
+  }
+}
+activity2$weekday<-wd
+head(activity2)
+stepAveInt1 <- aggregate(steps~interval+weekday, data=activity2, FUN="mean")
+# stepAveInt1 <- aggregate(x=activity2, by=list(interval, weekday), FUN="mean")
+
+head(stepAveInt1)
+
+library(lattice)
+# ?xyplot
+stepAveInt1<-transform(stepAveInt1, weekday=factor(weekday))
+xyplot(steps~interval|weekday, data=stepAveInt1, layout=c(1,2), lty=1, type="l")
+
+```
