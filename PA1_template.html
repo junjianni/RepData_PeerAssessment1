@@ -211,19 +211,23 @@ head(activity)
 
 <h2>What is mean total number of steps taken per day?</h2>
 
-<pre><code class="r">stepsumD &lt;- aggregate(steps~date, data=activity, FUN=&quot;sum&quot;)
+<pre><code class="r"># Calculate the total number of steps taken each day
+stepsumD &lt;- aggregate(steps~date, data=activity, FUN=&quot;sum&quot;)
+# Display total number of steps each day with histogram
 hist(stepsumD$steps)
 </code></pre>
 
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAGwCAMAAABy/YdMAAAAh1BMVEX9/v0AAAAAADkAAGUAOTkAOY8AZo8AZrU5AAA5ADk5AGU5OY85ZrU5j485j9plAABlADllAGVlZjlltbVltdpltf2POQCPOTmPOWWPZo+PjzmPj2WPtY+P29qP2/21ZgC1jzm1tWW1/rW1/v3ajzna/rXa/tra/v39tWX924/9/rX9/tr9/v0DmYE4AAAALXRSTlP//////////////////////////////////////////////////////////wCl7wv9AAAACXBIWXMAAAsSAAALEgHS3X78AAANn0lEQVR4nO2dDXfaRhpGK1wvbpxC0l2ceHdj2jUpn///961mJGFhBksDgkej995zWhzAN8pcjyQwkn7ZgUl+US8AaCC8UQhvFMIbhfBGIbxRCG8UwhuF8EYhvFEIbxTCG4XwRiG8UQhvFMIbhfBGIbxRCG8UwhuF8EYhvFEIbxTCG4Xw3bCYqJcgkv6H30zvXne77dPda/FVxXx2gXT9kI1eDu6J122mmWNWfnm/vMh2a1IKf3D3PLtkbI+++wxdGT6blF+Nu1q4m5BSeP9VPlezu9ftUzHSCz/w7uHs7n/T++X2afRHPpdX+d35jF5l/8jvf11k+w7F8/13FzP0WDfzf9lf7u7q4eLHbpP768ZiwVb5H1fZ/Z+/hxcuZOsFqYUvJtf938XYzrNiqvmh/vXBhXeP/iyetFxlFeVwl89/Cx/SlT8Y7hnlw8ta+DdjueXJZ/f64f7PSXubcjT3pBC+PtL5GBcD59am64d8Wm+mo5f1Q95g4QtVa1z3ZDcb81k2c09x9+2fv18Xv9Plf3CNc4tff8+qh2vh34xl+EX+nfNixdPS1gtSC+//5Abcje3KV85H3n+xKVb1L9U3ufBj/wNQ3bt//j78O51n9FLsUCyySfVwLfybsRbez+pySjfbekEK4Y+28Vk5Z0+F98/Zh3/7cTgO/073PlX18LvwhfFtVe+kk4Wf5W1sqpE8ILnwjnmZLrSqd+NaDPJx+ONV/TtduSrer5yrh/M7Zt5/HL7YuRsX4dvZbjNuDaQWvprMbrMa3LlziVdZeMbvn1/bxh/ryl1E90X94XJ3sR4+K3ffqr22trY+kFp4n6pcneczqno5lw999XLOJc7H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" alt="plot of chunk unnamed-chunk-2"/> </p>
 
-<pre><code class="r">mean(stepsumD$steps)
+<pre><code class="r"># Compute mean of total number of steps each day
+mean(stepsumD$steps)
 </code></pre>
 
 <pre><code>## [1] 10766
 </code></pre>
 
-<pre><code class="r">median(stepsumD$steps)
+<pre><code class="r"># Compute median of total number of steps each day
+median(stepsumD$steps)
 </code></pre>
 
 <pre><code>## [1] 10765
@@ -231,7 +235,8 @@ hist(stepsumD$steps)
 
 <h2>What is the average daily activity pattern?</h2>
 
-<pre><code class="r">stepAveInt &lt;- aggregate(steps~interval, data=activity, FUN=&quot;mean&quot;)
+<pre><code class="r"># Calculate the average number of steps taken versus 5-minute interval and display a few of them
+stepAveInt &lt;- aggregate(steps~interval, data=activity, FUN=&quot;mean&quot;)
 head(stepAveInt)
 </code></pre>
 
@@ -244,19 +249,28 @@ head(stepAveInt)
 ## 6       25 2.09434
 </code></pre>
 
-<pre><code class="r">plot(stepAveInt$interval, stepAveInt$steps, type=&#39;l&#39;, xlab=&quot;interval&quot;, ylab=&quot;Average steps&quot;, main=&quot;Changes in average steps of intervals during a day&quot;, col=1,axes=T)
+<pre><code class="r"># Display the average number of steps taken versus 5-minute interval with time series plot
+plot(stepAveInt$interval, stepAveInt$steps, type=&#39;l&#39;, xlab=&quot;interval&quot;, ylab=&quot;Average steps&quot;, main=&quot;Changes in average steps of intervals during a day&quot;, col=1,axes=T)
 </code></pre>
 
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAGwCAMAAABy/YdMAAAAk1BMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZrU5AAA5ADk5AGU5OQA5OWU5OY85ZrU5j485j9plAABlADllAGVlOQBlZjlltbVltf2POQCPOTmPOWWPZgCPj2WPtY+P27WP29qP2/21ZgC1tWW124+1/rW1/v3ajznatWXa24/a/rXa/tra/v39tWX924/9/rX9/tr9/v0p2aemAAAAMXRSTlP///////////////////////////////////////////////////////////////8AH5pOIQAAAAlwSFlzAAALEgAACxIB0t1+/AAAEhdJREFUeJztnQ9/o7Ydxqu0u2S3pUvuujnt1tXuet7asx3e/6sbAiQkEFggCQTP8/3cJTagn37oyx/JAfxNQSD5Zu0EyDpQPCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aCkE397FUK8FMX727df5pWfV+4up4P3otcn8XDs5+IRwZn97fXDV5/lhkL2SgeQTPxFVDzOFp+Kk/AX717WJ4Kv+AlsQ/z7m9zbz+UOU4r/z5OQzSC3hXIHKif8KqoJ5ULf/latzrmcJVuz3MVE02Ky6dpFJU35U7k1FfXPptj728PfyznNfEfYQocu5wmrpKrAqLme+1JUy1aNbebSiyDr/ovOqUmiEm/GlMX+USZV7Qe36oUs+G9rLdvM29W1SjcTqyAX2cKzSSX++iTTf3871M0nm6o69gu5xvpYUP76Ti54qqa86EVkhLqxm0XrCfXMi1zg9lptAsIw9LsZ3wprlP6j1maVlIXMmpu5j13xxtROhA//VTmpOLKEGVNXZIivkzbWss3cWF2rtJp4Lre5k9oqZpFKfLs5Vvv+9cmy+VJIe9ensg3O1YtyrmwRtVhvUXtiucYXs1i52GM7vx9WztGh5YHaLFltbgez5utTtctWW9bBkUs3wmO13x91orV0e210Uqb4x6EGMVfXKt2u42PgKXQJ8VUzyqTl9tqIkxMu9ZrLFxXN/mId6nXZelI191zGlo2vi1WL6fn9sGpeFbpTUk4qA5o1VwGKaqeyxKtcXHWrnFQSeo83Y946h/pjJ7JeyFpd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" alt="plot of chunk unnamed-chunk-3"/> </p>
 
-<pre><code class="r">subset(stepAveInt, steps==max(stepAveInt$steps))
+<pre><code class="r"># Find the time series containing the maximum number of steps and report it
+subset(stepAveInt, steps==max(stepAveInt$steps))
 </code></pre>
 
 <pre><code>##     interval steps
 ## 104      835 206.2
 </code></pre>
 
-<pre><code class="r">summary(stepAveInt$steps)
+<pre><code class="r">subset(stepAveInt, steps==max(stepAveInt$steps))$interval
+</code></pre>
+
+<pre><code>## [1] 835
+</code></pre>
+
+<pre><code class="r"># Calculate summary stats for the average number of steps taken versus 5-minute interval
+summary(stepAveInt$steps)
 </code></pre>
 
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -265,51 +279,23 @@ head(stepAveInt)
 
 <h2>Imputing missing values</h2>
 
-<pre><code class="r">head(activity)
-</code></pre>
-
-<pre><code>##   steps       date interval
-## 1    NA 2012-10-01        0
-## 2    NA 2012-10-01        5
-## 3    NA 2012-10-01       10
-## 4    NA 2012-10-01       15
-## 5    NA 2012-10-01       20
-## 6    NA 2012-10-01       25
-</code></pre>
-
-<pre><code class="r">length(activity[activity$steps==&quot;NA&quot;,]$steps)
+<pre><code class="r"># Check how many steps with missing value
+length(activity[activity$steps==&quot;NA&quot;,]$steps)
 </code></pre>
 
 <pre><code>## [1] 2304
 </code></pre>
 
-<pre><code class="r"># length(activity$steps)
-
-## p2
-# if(activity$steps==&quot;NA&quot;){activity$step=mean(stepAveInt[interval])}
-str(activity)
-</code></pre>
-
-<pre><code>## &#39;data.frame&#39;:    17568 obs. of  3 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Factor w/ 61 levels &quot;2012-10-01&quot;,&quot;2012-10-02&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-</code></pre>
-
-<pre><code class="r">str(stepAveInt)
-</code></pre>
-
-<pre><code>## &#39;data.frame&#39;:    288 obs. of  2 variables:
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
-</code></pre>
-
-<pre><code class="r">activity1 &lt;- merge(activity, stepAveInt, by=&quot;interval&quot;)
+<pre><code class="r"># Imputing strategy: If missing value, using the average number of steps for that time interval to replace the missing value
+# Merge the raw data with aggregating data (average number of steps for each interval)
+activity1 &lt;- merge(activity, stepAveInt, by=&quot;interval&quot;)
+# Go through raw data set steps, if it&#39;s NA, then it will be replaced by aggreated average number of steps of that time interval
 for(i in 1:nrow(activity1)){
   if(is.na(activity1$steps.x[i])){
     activity1$steps.x[i]&lt;-activity1$steps.y[i]
   }
 }
+# Check a few records after imputing data
 head(activity1, 10)
 </code></pre>
 
@@ -326,8 +312,10 @@ head(activity1, 10)
 ## 10        0   0.000 2012-11-25   1.717
 </code></pre>
 
-<pre><code class="r">activity2&lt;-data.frame(activity1$steps.x, activity1$date, activity1$interval)
+<pre><code class="r"># Get and prepare new dataframe with imputated steps, date and interval, assign the column names
+activity2&lt;-data.frame(activity1$steps.x, activity1$date, activity1$interval)
 colnames(activity2)&lt;-c(&quot;steps&quot;,&quot;date&quot;,&quot;interval&quot;)
+# Calculate the total number of steps taken each day again after missing data values were imputed, display that with histogram, calculate mean, median again.
 stepsumD2 &lt;- aggregate(steps~date, data=activity2, FUN=&quot;sum&quot;)
 hist(stepsumD2$steps)
 </code></pre>
@@ -346,12 +334,10 @@ hist(stepsumD2$steps)
 <pre><code>## [1] 10766
 </code></pre>
 
-<pre><code class="r"># summary(stepsumD$steps)
-</code></pre>
-
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 
-<pre><code class="r">wd&lt;-weekdays(as.Date(activity2$date))
+<pre><code class="r"># Add new variable wd, assign as weekend or weekday based on date situation, added that to previous dataframe, display a few records of the dataframe
+wd&lt;-weekdays(as.Date(activity2$date))
 for(i in 1:length(wd)){
   if(wd[i]==&quot;Saturday&quot; | wd[i]==&quot;Sunday&quot;){
     wd[i]&lt;-&quot;weekend&quot;
@@ -372,9 +358,8 @@ head(activity2)
 ## 6 0.000 2012-11-15        0 weekday
 </code></pre>
 
-<pre><code class="r">stepAveInt1 &lt;- aggregate(steps~interval+weekday, data=activity2, FUN=&quot;mean&quot;)
-# stepAveInt1 &lt;- aggregate(x=activity2, by=list(interval, weekday), FUN=&quot;mean&quot;)
-
+<pre><code class="r"># Compute average nubmer of steps taken based on time series interval and weekdays, display a few records
+stepAveInt1 &lt;- aggregate(steps~interval+weekday, data=activity2, FUN=&quot;mean&quot;)
 head(stepAveInt1)
 </code></pre>
 
@@ -387,8 +372,8 @@ head(stepAveInt1)
 ## 6       25 weekday 1.59036
 </code></pre>
 
-<pre><code class="r">library(lattice)
-# ?xyplot
+<pre><code class="r"># Display the average number of steps taken versus 5-minute interval and weekday with time series plot, using lattice package
+library(lattice)
 stepAveInt1&lt;-transform(stepAveInt1, weekday=factor(weekday))
 xyplot(steps~interval|weekday, data=stepAveInt1, layout=c(1,2), lty=1, type=&quot;l&quot;)
 </code></pre>

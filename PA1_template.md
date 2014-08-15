@@ -24,13 +24,16 @@ head(activity)
 
 
 ```r
+# Calculate the total number of steps taken each day
 stepsumD <- aggregate(steps~date, data=activity, FUN="sum")
+# Display total number of steps each day with histogram
 hist(stepsumD$steps)
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
 ```r
+# Compute mean of total number of steps each day
 mean(stepsumD$steps)
 ```
 
@@ -39,6 +42,7 @@ mean(stepsumD$steps)
 ```
 
 ```r
+# Compute median of total number of steps each day
 median(stepsumD$steps)
 ```
 
@@ -49,6 +53,7 @@ median(stepsumD$steps)
 ## What is the average daily activity pattern?
 
 ```r
+# Calculate the average number of steps taken versus 5-minute interval and display a few of them
 stepAveInt <- aggregate(steps~interval, data=activity, FUN="mean")
 head(stepAveInt)
 ```
@@ -64,12 +69,14 @@ head(stepAveInt)
 ```
 
 ```r
+# Display the average number of steps taken versus 5-minute interval with time series plot
 plot(stepAveInt$interval, stepAveInt$steps, type='l', xlab="interval", ylab="Average steps", main="Changes in average steps of intervals during a day", col=1,axes=T)
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 ```r
+# Find the time series containing the maximum number of steps and report it
 subset(stepAveInt, steps==max(stepAveInt$steps))
 ```
 
@@ -79,6 +86,15 @@ subset(stepAveInt, steps==max(stepAveInt$steps))
 ```
 
 ```r
+subset(stepAveInt, steps==max(stepAveInt$steps))$interval
+```
+
+```
+## [1] 835
+```
+
+```r
+# Calculate summary stats for the average number of steps taken versus 5-minute interval
 summary(stepAveInt$steps)
 ```
 
@@ -91,20 +107,7 @@ summary(stepAveInt$steps)
 
 
 ```r
-head(activity)
-```
-
-```
-##   steps       date interval
-## 1    NA 2012-10-01        0
-## 2    NA 2012-10-01        5
-## 3    NA 2012-10-01       10
-## 4    NA 2012-10-01       15
-## 5    NA 2012-10-01       20
-## 6    NA 2012-10-01       25
-```
-
-```r
+# Check how many steps with missing value
 length(activity[activity$steps=="NA",]$steps)
 ```
 
@@ -113,37 +116,16 @@ length(activity[activity$steps=="NA",]$steps)
 ```
 
 ```r
-# length(activity$steps)
-
-## p2
-# if(activity$steps=="NA"){activity$step=mean(stepAveInt[interval])}
-str(activity)
-```
-
-```
-## 'data.frame':	17568 obs. of  3 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-```
-
-```r
-str(stepAveInt)
-```
-
-```
-## 'data.frame':	288 obs. of  2 variables:
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
-```
-
-```r
+# Imputing strategy: If missing value, using the average number of steps for that time interval to replace the missing value
+# Merge the raw data with aggregating data (average number of steps for each interval)
 activity1 <- merge(activity, stepAveInt, by="interval")
+# Go through raw data set steps, if it's NA, then it will be replaced by aggreated average number of steps of that time interval
 for(i in 1:nrow(activity1)){
   if(is.na(activity1$steps.x[i])){
     activity1$steps.x[i]<-activity1$steps.y[i]
   }
 }
+# Check a few records after imputing data
 head(activity1, 10)
 ```
 
@@ -162,8 +144,10 @@ head(activity1, 10)
 ```
 
 ```r
+# Get and prepare new dataframe with imputated steps, date and interval, assign the column names
 activity2<-data.frame(activity1$steps.x, activity1$date, activity1$interval)
 colnames(activity2)<-c("steps","date","interval")
+# Calculate the total number of steps taken each day again after missing data values were imputed, display that with histogram, calculate mean, median again.
 stepsumD2 <- aggregate(steps~date, data=activity2, FUN="sum")
 hist(stepsumD2$steps)
 ```
@@ -186,13 +170,10 @@ median(stepsumD2$steps)
 ## [1] 10766
 ```
 
-```r
-# summary(stepsumD$steps)
-```
-
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
+# Add new variable wd, assign as weekend or weekday based on date situation, added that to previous dataframe, display a few records of the dataframe
 wd<-weekdays(as.Date(activity2$date))
 for(i in 1:length(wd)){
   if(wd[i]=="Saturday" | wd[i]=="Sunday"){
@@ -216,9 +197,8 @@ head(activity2)
 ```
 
 ```r
+# Compute average nubmer of steps taken based on time series interval and weekdays, display a few records
 stepAveInt1 <- aggregate(steps~interval+weekday, data=activity2, FUN="mean")
-# stepAveInt1 <- aggregate(x=activity2, by=list(interval, weekday), FUN="mean")
-
 head(stepAveInt1)
 ```
 
@@ -233,8 +213,8 @@ head(stepAveInt1)
 ```
 
 ```r
+# Display the average number of steps taken versus 5-minute interval and weekday with time series plot, using lattice package
 library(lattice)
-# ?xyplot
 stepAveInt1<-transform(stepAveInt1, weekday=factor(weekday))
 xyplot(steps~interval|weekday, data=stepAveInt1, layout=c(1,2), lty=1, type="l")
 ```
